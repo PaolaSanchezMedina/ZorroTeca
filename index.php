@@ -185,6 +185,7 @@
             if (status == 'true') {
               $('#ActualizarModal').modal('hide');
               table = $('#tablaLibros').DataTable();
+              table.draw();
               var button = '<td><a href="javascript:void();" data-id_libro="' + id_libro + '" class="btn editbtn" ><i role="button" class="fa-solid fa-user-pen text-primary"></i></a> <a href="#!"  data-id_libro="' + id_libro + '"  class="btn deleteBtn" ><i role="button" class="fa-solid fa-user-xmark text-danger"></i></a></td>';
               var row = table.row("[id_libro='" + trid_libro + "']");
               row.row("[id_libro='" + trid_libro + "']").data([id_libro, ruta_archivo, titulo, id_autor, fecha_publicacion, genero, sipnosis, num_paginas, idioma]);
@@ -242,6 +243,7 @@
             status = json.status;
             if (status == 'success') {
               $("#" + id_libro).closest('tr').remove();
+              table.draw();
             } else {
               alert('Failed');
               return;
