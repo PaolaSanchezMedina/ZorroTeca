@@ -112,7 +112,11 @@
     //Agregar libros
     $(document).on('submit', '#addBook', function(e) {
       e.preventDefault();
-      var ruta_archivo = $('#inputRuta').val();
+
+      var formData = new FormData();
+      var ruta_archivo = $('#inputRuta')[0].files[0];
+
+
       var titulo = $('#inputTitulo').val();
       var id_autor = $('#inputAutor').val();
       var fecha_publicacion = $('#inputPublicacion').val();
@@ -120,20 +124,25 @@
       var sipnosis = $('#inputSinopsis').val();
       var num_paginas = $('#inputPaginas').val();
       var idioma = $('#inputIdioma').val();
-      if (ruta_archivo != '' && titulo != '' && id_autor != '' && fecha_publicacion != '' && genero != '' && sipnosis != '' && num_paginas != '' && idioma != '') {
-        $.ajax({
+
+
+      formData.append('ruta_archivo', ruta_archivo);
+      formData.append('titulo', titulo);
+      formData.append('id_autor', id_autor);
+      formData.append('fecha_publicacion', fecha_publicacion);
+      formData.append('genero', genero);
+      formData.append('sipnosis', sipnosis);
+      formData.append('num_paginas', num_paginas);
+      formData.append('idioma', idioma);
+
+      if (ruta_archivo && titulo != '' && id_autor != '' && fecha_publicacion != '' && genero != '' && sipnosis != '' && num_paginas != '' && idioma != '') {
+          $.ajax({
           url: "bd/add_book.php",
           type: "post",
-          data: {
-            ruta_archivo: ruta_archivo,
-            titulo: titulo,
-            id_autor: id_autor,
-            fecha_publicacion: fecha_publicacion,
-            genero: genero,
-            sipnosis: sipnosis,
-            num_paginas: num_paginas,
-            idioma: idioma
-          },
+          contentType: false,
+          processData: false,
+          data: formData,
+
           success: function(data) {
             var json = JSON.parse(data);
             var status = json.status;
@@ -324,37 +333,37 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          <form id="addBook" action="">
+          <form id="addBook" action="" enctype="multipart/form-data">
           <div class="row">
             <div class="col">
               <label for="" class="fw-semibold">Ruta</label>
-              <input type="text" class="form-control" id="inputRuta" name="inputModelo">
+              <input type="file" class="form-control" id="inputRuta" name="inputRuta"  accept=".pdf">
             </div>
             <div class="col">
               <label for="" class="fw-semibold">Título</label>
-              <input type="text" class="form-control" id="inputTitulo" name="inputSO">
+              <input type="text" class="form-control" id="inputTitulo" name="inputTitulo">
             </div>
             <div class="col">
               <label for="" class="fw-semibold">Autor</label>
-              <input type="text" class="form-control" id="inputAutor" name="inputCPU">
+              <input type="text" class="form-control" id="inputAutor" name="inputAutor">
             </div>
             <div class="col">
               <label for="" class="fw-semibold">Año de Publicación</label>  
-              <input type="text" class="form-control" id="inputPublicacion" name="inputVelCPU">
+              <input type="text" class="form-control" id="inputPublicacion" name="inputPublicacion">
             </div>
           </div>
           <div class="row">
             <div class="col">
               <label for="" class="fw-semibold">Género</label>
-              <input type="text" class="form-control" id="inputGenero" name="inputModelo">
+              <input type="text" class="form-control" id="inputGenero" name="inputGenero">
             </div>
             <div class="col">
               <label for="" class="fw-semibold">Número de Páginas</label>
-              <input type="text" class="form-control" id="inputPaginas" name="inputCPU">
+              <input type="text" class="form-control" id="inputPaginas" name="inputNumPaginas">
             </div>
             <div class="col">
               <label for="" class="fw-semibold">Idioma</label>
-              <input type="text" class="form-control" id="inputIdioma" name="inputVelCPU">
+              <input type="text" class="form-control" id="inputIdioma" name="inputIdioma">
             </div>
           </div>
           <div class="row">
