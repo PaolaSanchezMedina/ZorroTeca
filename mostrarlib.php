@@ -54,7 +54,7 @@
     <div clas="mt-12">
         <div class=" d-flex justify-content-end" style="margin-right: 15px;   ">
                 <div class="presentacion2 text-left" style="width: 550px;" >
-                            <label class="ordenar">Ordenar por: </label>
+                         
                             <select id="ordenar" name="ordenar">
                             <option value="Todos">Todo</option>
                             <option value="ABC">Abecedario</option>
@@ -66,63 +66,62 @@
             </div>
         </div>
 
- 
+            <!--fILTRO -->
 
 
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" crossorigin="anonymous"></script>
+<script>
+$(document).ready(function(){
+    $("#buscarLibros").on("click", function(){
+        var orden = $("#ordenar").val();
 
-
-<ul class="lista-libros">
-    <?php
-    include "bd/libros_usuario.php";
-    $products = get_product_details();
-    foreach ($products as $ap) {
-        $name = $ap['titulo'];
-        $autor= $ap['id_autor'];
-        $id= $ap['id_libro'];
-        ?>
-        <li class="elemento-lista-libros" <?php echo "title='$name'" ?>>
-        <div class="presentacion1 d-flex-center text-center">
-            <?php echo "<object data='pdfs/".$name.".pdf' width='170px' height='170px' style='  border: 1px solid black;' ></object>" ?>
-            <div class="elem">
-                <h5 ><?php echo $name; ?></h5>
-            </div>
-            <?php 
-            $autores=get_autor_by_id($autor);
-            foreach($autores as $aut){
-                $autor=$aut['nombre_autor'];
+        $.ajax({
+            url: 'bd/libros_usuario.php', // Ruta a tu archivo PHP con la lógica de ordenamiento
+            type: 'post',
+            data: {orden: orden}, // Enviar la opción seleccionada al archivo PHP
+            success: function(response){
+                // Actualizar la lista de libros con la respuesta del servidor
+                $(".lista-libros").html(response);
             }
-            echo $autor; ?>
-
-            <form method="post" action="vista_libro.php">
-            <input type='hidden' name='id_libro' value='<?php echo $id; ?>'>
-            <input type='submit' value='Ver'>         
-            </form>
-        </div>
-        </li>   
-        <?php
-    }   
-    ?>
-    </ul>
-
-    <!--fILTRO -->
-    <script>
-    $(document).ready(function(){
-        $("#buscarLibros").on("click", function(){
-            var orden = $("#ordenar").val();
-
-            $.ajax({
-                url: 'search_book_order.php',
-                type: 'post',
-                data: {orden: orden},
-                success: function(response){
-                    $("lista-libros").html(response);
-                }
-            });
         });
     });
+});
 </script>
 
-
+<ul class="lista-libros">
+<?php
+ include "bd/libros_usuario.php";
+ 
+    $books = get_books_ordered_by_year_asc();
+        
+        foreach ($books as $ap) {
+            $name = $ap['titulo'];
+            $autor = $ap['id_autor'];
+            $id = $ap['id_libro'];
+            ?>
+            <li class="elemento-lista-libros" <?php echo "title='$name'" ?>>
+                <div class="presentacion1 d-flex-center text-center">
+                    <?php echo "<object data='pdfs/" . $name . ".pdf' width='170px' height='170px' style='  border: 1px solid black;' ></object>" ?>
+                    <div class="elem">
+                        <h5><?php echo $name; ?></h5>
+                    </div>
+                    <?php
+                    $autores = get_autor_by_id($autor);
+                    foreach ($autores as $aut) {
+                        $autor = $aut['nombre_autor'];
+                    }
+                    echo $autor; ?>
+                    <form method="post" action="vista_libro.php">
+                        <input type='hidden' name='id_libro' value='<?php echo $id; ?>'>
+                        <input type='submit' value='Ver'>
+                    </form>
+                </div>
+            </li>
+            <?php
+        }
+    
+    ?>
+</ul>
         
 
 </body>

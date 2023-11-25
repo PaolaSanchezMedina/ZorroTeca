@@ -63,7 +63,7 @@ function get_books_ordered_by_year_desc() {
 
 function get_books_ordered_by_year_asc() {
     global $con;
-    $sql = "SELECT * FROM libro ORDER BY ano_publicacion ASC";
+    $sql = "SELECT * FROM libro ORDER BY fecha_publicacion ASC";
     $result = $con->query($sql);
 
     $books = array();
