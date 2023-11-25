@@ -25,7 +25,4 @@ if(isset($_POST['orden'])) {
     } else {
         echo "<p>No se encontraron resultados.</p>";
     }
-} else {
-    echo "<p>No se ha especificado ningún criterio de ordenamiento.</p>";
-}
 ?>

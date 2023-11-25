@@ -34,4 +34,45 @@ function get_autor_by_id($autor){
     }
     return $ret;
 }
+function get_books_ordered_by_title() {
+    global $con;
+    $sql = "SELECT * FROM libro ORDER BY titulo ASC";
+    $result = $con->query($sql);
+
+    $books = array();
+    if ($result->num_rows > 0) {
+        while ($row = $result->fetch_assoc()) {
+            $books[] = $row;
+        }
+    }
+    return $books;
+}
+function get_books_ordered_by_year_desc() {
+    global $con;
+    $sql = "SELECT * FROM libro ORDER BY fecha_publicacion DESC";
+    $result = $con->query($sql);
+
+    $books = array();
+    if ($result->num_rows > 0) {
+        while ($row = $result->fetch_assoc()) {
+            $books[] = $row;
+        }
+    }
+    return $books;
+}
+
+function get_books_ordered_by_year_asc() {
+    global $con;
+    $sql = "SELECT * FROM libro ORDER BY ano_publicacion ASC";
+    $result = $con->query($sql);
+
+    $books = array();
+    if ($result->num_rows > 0) {
+        while ($row = $result->fetch_assoc()) {
+            $books[] = $row;
+        }
+    }
+    return $books;
+}
+
 ?>

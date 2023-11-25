@@ -115,7 +115,7 @@
                 type: 'post',
                 data: {orden: orden},
                 success: function(response){
-                    $(".lista-libros").html(response);
+                    $("lista-libros").html(response);
                 }
             });
         });
