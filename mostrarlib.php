@@ -40,7 +40,7 @@
                 <div>
                     <ul class="navbar-nav">
                     <li class="nav-item li-bg-inicio">
-                            <a class="nav-link active" href="login.php">Iniciar sesión</a>
+                            <a class="nav-link active " href="login.php">Iniciar sesión</a>
                         </li>
                     </ul>
                 </div>
@@ -48,8 +48,30 @@
         </nav>
     </div>
 
+
+
 <h1 >Libros</h1>
-    <ul class="lista-libros">
+    <div clas="mt-12">
+        <div class=" d-flex justify-content-end" style="margin-right: 15px;   ">
+                <div class="presentacion2 text-left" style="width: 550px;" >
+                            <label class="ordenar">Ordenar por: </label>
+                            <select id="ordenar" name="ordenar">
+                            <option value="Todos">Todo</option>
+                            <option value="ABC">Abecedario</option>
+                            <option value="DESC">Por año de menor a mayor</option>
+                            <option value="ASC">Por año de mayor a menor</option>
+                        </select>
+                        <button class="btn btn-dark col-3" id="buscarLibros" type='button'>Buscar</button>
+                </div>
+            </div>
+        </div>
+
+ 
+
+
+
+
+<ul class="lista-libros">
     <?php
     include "bd/libros_usuario.php";
     $products = get_product_details();
@@ -59,7 +81,7 @@
         $id= $ap['id_libro'];
         ?>
         <li class="elemento-lista-libros" <?php echo "title='$name'" ?>>
-        <div class="contenedor">
+        <div class="presentacion1 d-flex-center text-center">
             <?php echo "<object data='pdfs/".$name.".pdf' width='170px' height='170px' style='  border: 1px solid black;' ></object>" ?>
             <div class="elem">
                 <h5 ><?php echo $name; ?></h5>
@@ -81,6 +103,28 @@
     }   
     ?>
     </ul>
+
+    <!--fILTRO -->
+    <script>
+    $(document).ready(function(){
+        $("#buscarLibros").on("click", function(){
+            var orden = $("#ordenar").val();
+
+            $.ajax({
+                url: 'search_book_order.php',
+                type: 'post',
+                data: {orden: orden},
+                success: function(response){
+                    $(".lista-libros").html(response);
+                }
+            });
+        });
+    });
+</script>
+
+
+        
+
 </body>
 
 </html>
