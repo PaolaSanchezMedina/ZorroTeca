@@ -54,46 +54,51 @@
     <div clas="mt-12">
         <div class=" d-flex justify-content-end" style="margin-right: 15px;   ">
                 <div class="presentacion2 text-left" style="width: 550px;" >
-                         
+                         <form action="" method="GET">
                             <select id="ordenar" name="ordenar">
                             <option value="Todos">Todo</option>
                             <option value="ABC">Abecedario</option>
                             <option value="DESC">Por año de menor a mayor</option>
                             <option value="ASC">Por año de mayor a menor</option>
                         </select>
-                        <button class="btn btn-dark col-3" id="buscarLibros" type='button'>Buscar</button>
-                </div>
+                        <input class="btn btn-dark col-3" value="buscar" name="submit" type='submit'></input>
+                        </form>
+                    </div>
             </div>
         </div>
 
             <!--fILTRO -->
 
+<?php   $var1="todos";
+    include "bd/search_book_order.php";
+?>
 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js" crossorigin="anonymous"></script>
-<script>
-$(document).ready(function(){
-    $("#buscarLibros").on("click", function(){
-        var orden = $("#ordenar").val();
 
-        $.ajax({
-            url: 'bd/libros_usuario.php', // Ruta a tu archivo PHP con la lógica de ordenamiento
-            type: 'post',
-            data: {orden: orden}, // Enviar la opción seleccionada al archivo PHP
-            success: function(response){
-                // Actualizar la lista de libros con la respuesta del servidor
-                $(".lista-libros").html(response);
-            }
-        });
-    });
-});
-</script>
-
+<div id="aqui">
 <ul class="lista-libros">
 <?php
- include "bd/libros_usuario.php";
- 
-    $books = get_books_ordered_by_year_asc();
-        
+    
+    include "bd/libros_usuario.php";
+    
+    if(isset($_GET['ordenar'])){
+        $var1 = $_GET['ordenar'];
+        // Now you can use $file variable according to your code requirements
+    }
+    
+    if ($var1 === 'ABC') {
+       
+        $books = get_books_ordered_by_title();
+
+    } elseif ($var1 === 'DESC') {
+    
+        $books = get_books_ordered_by_year_asc();
+    } elseif ($var1 === 'ASC') {
+    
+        $books = get_books_ordered_by_year_desc();
+    } else {
+
+        $books = get_product_details();
+    }
         foreach ($books as $ap) {
             $name = $ap['titulo'];
             $autor = $ap['id_autor'];
@@ -104,6 +109,7 @@ $(document).ready(function(){
                     <?php echo "<object data='pdfs/" . $name . ".pdf' width='170px' height='170px' style='  border: 1px solid black;' ></object>" ?>
                     <div class="elem">
                         <h5><?php echo $name; ?></h5>
+                        
                     </div>
                     <?php
                     $autores = get_autor_by_id($autor);
@@ -123,7 +129,7 @@ $(document).ready(function(){
     ?>
 </ul>
         
-
+</div>
 </body>
 
 </html>
