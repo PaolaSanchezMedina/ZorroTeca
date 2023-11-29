@@ -1,16 +1,13 @@
 <?php
-/*echo json_encode(array(
-    'status' => 'false',
-));*/
+
 include('connection.php');
 
-// Manejo del archivo PDF
-//$targetDir = "../storage/";
-$targetName = basename($_FILES["ruta_archivo"]["name"]);
 
+$targetName = basename($_FILES["ruta_archivo"]["name"]);
+$ruta_destino = '';
 
  if ($_FILES['ruta_archivo']['error'] === UPLOAD_ERR_OK) {
-    $ruta_destino = '../storage/' . basename($_FILES['ruta_archivo']['name']);
+    $ruta_destino = 'pdfs/' . $_POST['titulo'] . '.pdf';
     if (move_uploaded_file($_FILES['ruta_archivo']['tmp_name'], $ruta_destino)) {
         echo 'Archivo subido correctamente';
     } else {
@@ -32,7 +29,7 @@ $sql = "INSERT INTO `libro` (`ruta_archivo`,`titulo`,`id_autor`,`fecha_publicaci
 $stmt = mysqli_prepare($con, $sql);
 
 if ($stmt) {
-    mysqli_stmt_bind_param($stmt, "ssisssis", $targetName, $titulo, $id_autor, $fecha_publicacion, $genero, $sipnosis, $num_paginas, $idioma);
+    mysqli_stmt_bind_param($stmt, "ssisssis", $ruta_destino, $titulo, $id_autor, $fecha_publicacion, $genero, $sipnosis, $num_paginas, $idioma);
 
     if (mysqli_stmt_execute($stmt)) {
         $data = array(

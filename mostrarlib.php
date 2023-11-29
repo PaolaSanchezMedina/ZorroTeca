@@ -101,12 +101,13 @@
     }
         foreach ($books as $ap) {
             $name = $ap['titulo'];
+            $ruta_archivo = $ap['ruta_archivo'];
             $autor = $ap['id_autor'];
             $id = $ap['id_libro'];
             ?>
             <li class="elemento-lista-libros" <?php echo "title='$name'" ?>>
                 <div class="presentacion1 d-flex-center text-center">
-                    <?php echo "<object data='pdfs/" . $name . ".pdf' width='170px' height='170px' style='  border: 1px solid black;' ></object>" ?>
+                    <?php echo "<object data='pdfs/Christian.pdf' width='170px' height='170px' style='  border: 1px solid black;' ></object>" ?>
                     <div class="elem">
                         <h5><?php echo $name; ?></h5>
                         
