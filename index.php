@@ -31,7 +31,7 @@
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
 
                         <li class="nav-item">
-                            <a class="nav-link fs-5 fw-bold" href="libros.php">Libros</a>
+                           <a class="nav-link fs-5 fw-bold" href="mostrarlib.php">Libros</a>
                         </li>
 
 
